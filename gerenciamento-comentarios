@@ -1,0 +1,144 @@
+openapi: 3.0.0
+info:
+  title: API de Comentários
+  description: API para gerenciamento de comentários com documentação Swagger
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api
+
+tags:
+  - name: Comentários
+    description: Operações relacionadas a comentários
+
+paths:
+  /posts/{postId}/comments:
+    get:
+      summary: Lista todos os comentários de um post
+      tags: [Comentários]
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de comentários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+    post:
+      summary: Cria um novo comentário em um post
+      tags: [Comentários]
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommentRequest'
+      responses:
+        '201':
+          description: Comentário criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+
+  /comments/{commentId}:
+    get:
+      summary: Busca um comentário específico
+      tags: [Comentários]
+      parameters:
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Comentário encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Comentário não encontrado
+
+    put:
+      summary: Atualiza um comentário (substitui por completo)
+      tags: [Comentários]
+      parameters:
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCommentRequest'
+      responses:
+        '200':
+          description: Comentário atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Comentário não encontrado
+
+    patch:
+      summary: Atualiza parcialmente um comentário
+      tags: [Comentários]
+      parameters:
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: "Novo conteúdo do comentário"
+      responses:
+        '200':
+          description: Comentário atualizado parcialmente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Comentário não encontrado
+
+    delete:
+      summary: Exclui um comentário
+      tags: [Comentários]
+      parameters:
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Comentário excluído com sucesso
+        '404':
+          descrip
