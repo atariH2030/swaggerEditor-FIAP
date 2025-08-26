@@ -1,2 +1,2 @@
 # swaggerEditor-FIAP
-Luan, Mateus, João
+Luan, Mateus, João, Rickson, Enzo
